@@ -1,0 +1,2 @@
+Welcome to the course.
+This is Design Patterns.

@@ -1,8 +1,13 @@
 package wordPlay.driver;
 import java.io.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import wordPlay.util.FileProcessor;
 import java.io.FileNotFoundException;
 import wordPlay.handler.WordRotator;
+import wordPlay.metrics.MetricsCalculator;
+import wordPlay.util.Results;
+import java.util.HashMap;
 
 
 /**
@@ -10,10 +15,14 @@ import wordPlay.handler.WordRotator;
  *
  */
 public class Driver {
+	public static HashMap<Integer,String> resultmap = new HashMap<>();
 	public static void main(String[] args) {
-
+		int count = 0,lineNum = 0;
+		int totalNumofWords = 0 ,totalNumofChar = 0;
+		String returnWord;
+		MetricsCalculator metricsCalculator = new MetricsCalculator();
 		try {
-			FileProcessor fileprocessor = new FileProcessor("/Users/jasmeetkaur/Desktop/input.txt");
+			FileProcessor fileprocessor = new FileProcessor("/Users/jasmeetkaur/Desktop/csx42-summer-2020-assign1-Jasmeet10 _V3/wordPlay/input.txt");
 
 			/*
 			 * As the build.xml specifies the arguments as input,output or metrics, in case the
@@ -28,32 +37,42 @@ public class Driver {
 
 			WordRotator wordrotate = new WordRotator();
 
-			int count = 1;
-			String returnWord;
+			int Flag = 0;
 			while ((returnWord = fileprocessor.poll()) != null) {
+				count = count + 1;
+				totalNumofWords = totalNumofWords +1;
 				wordrotate.WordRotator(returnWord, count);
-				if (returnWord.contains("."))
-					count = 1;
-				else
-					count = count + 1;
+				totalNumofChar = totalNumofChar + returnWord.length() ;
+				Flag = 1;
+				if (returnWord.contains(".")) {
+					count = 0;
+					lineNum = lineNum +1;
+					totalNumofChar = totalNumofChar-1;
+
+				}
+
+				Pattern p = Pattern.compile("[^a-zA-Z0-9.]", Pattern.CASE_INSENSITIVE);
+				Matcher m = p.matcher(returnWord);
+				boolean check = m.find();
+				if (check) {
+					System.out.println("There is a special character in the input file.");
+					break;
+				}
+			}
+			if (Flag == 0 && fileprocessor.poll() == null) {
+				System.out.println("File is empty");
 			}
 		}
-
 		catch (FileNotFoundException e) {
-			System.out.println("File not found");}
+			System.out.println("Missing Input File");}
 		catch (IOException e) {
 			System.out.println("IO Exception");
 		}
-
-		/*try {
-			File myObj = new File("wordPlay/src/output.txt");
-			if (myObj.createNewFile()) {
-				System.out.println("File created: " + myObj.getName());
-			}
-		} catch (IOException e) {
-			System.out.println("An error occurred.");
-		}*/
-
+		metricsCalculator.MetricsCalculator(totalNumofWords,totalNumofChar, lineNum);
+		Results results = new Results();
+		results.writeToFile();
+		results.writeToStdout();
 	}
+
 }
 

@@ -12,25 +12,29 @@ public class WordRotator{
         if (inputStr.contains("."))  //checking for the period
         {
             Character lastchar = inputStr.charAt(inputStr.length() - 1);
-            String newInputStr = inputStr.replace(".",""); // removing the period from the string
-            while((newInputStr.length()-1)< position) {
-                position = Math.abs(position-newInputStr.length());
-            }
-            for (int i = newInputStr.length() - position; i < newInputStr.length(); i++) {
-                outputStr += newInputStr.charAt(i);
-            }
-            for (int i = 0; i < newInputStr.length() - position; i++) {
-                outputStr += newInputStr.charAt(i);
-            }
+            String newInputStr = inputStr.replace(".", ""); // removing the period from the string
+            if (newInputStr == "") {
+                outputStr = ".\n";
+            } else {
+                while ((newInputStr.length() - 1) < position) {
+                    position = Math.abs(position - newInputStr.length());
+                }
+                for (int i = newInputStr.length() - position; i < newInputStr.length(); i++) {
+                    outputStr += newInputStr.charAt(i);
+                }
+                for (int i = 0; i < newInputStr.length() - position; i++) {
+                    outputStr += newInputStr.charAt(i);
+                }
 
-            if (lastchar.equals('.')) //adding the period on it position.
-            {
-                outputStr += lastchar + "\n";
-                //outputStr += "\n";
+                if (lastchar.equals('.')) //adding the period on it position.
+                {
+                    outputStr += lastchar + "\n";
+                    //outputStr += "\n";
+                }
+
             }
-
-
-        } else {
+        }
+        else {
             while ((inputStr.length()-1)< position) {
                 position = Math.abs(position-inputStr.length());
             }

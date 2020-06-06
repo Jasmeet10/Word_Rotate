@@ -8,7 +8,7 @@ import wordPlay.handler.WordRotator;
 import wordPlay.metrics.MetricsCalculator;
 import wordPlay.util.Results;
 import java.util.HashMap;
-
+import java.nio.file.InvalidPathException;
 
 /**
  * @author John Doe
@@ -17,13 +17,13 @@ import java.util.HashMap;
 public class Driver {
 	public static HashMap<Integer,String> resultmap = new HashMap<>();
 	public static void main(String[] args) {
+		Results results = new Results();
 		int count = 0,lineNum = 0;
 		int totalNumofWords = 0 ,totalNumofChar = 0;
 		String returnWord;
 		MetricsCalculator metricsCalculator = new MetricsCalculator();
 		try {
-			FileProcessor fileprocessor = new FileProcessor("/Users/jasmeetkaur/Desktop/csx42-summer-2020-assign1-Jasmeet10 _V3/wordPlay/input.txt");
-
+			FileProcessor fileprocessor = new FileProcessor("/Users/jasmeetkaur/Desktop/csx42-summer-2020-assign1-Jasmeet10 _V4/wordPlay/input.txt");
 			/*
 			 * As the build.xml specifies the arguments as input,output or metrics, in case the
 			 * argument value is not given java takes the default value specified in
@@ -39,6 +39,7 @@ public class Driver {
 
 			int Flag = 0;
 			while ((returnWord = fileprocessor.poll()) != null) {
+				System.out.println(returnWord);
 				count = count + 1;
 				totalNumofWords = totalNumofWords +1;
 				wordrotate.WordRotator(returnWord, count);
@@ -55,23 +56,46 @@ public class Driver {
 				Matcher m = p.matcher(returnWord);
 				boolean check = m.find();
 				if (check) {
-					System.out.println("There is a special character in the input file.");
+					String s = "There is a special character in the input file.";
+					//System.out.println("There is a special character in the input file.");
+					resultmap.put(4,s);
+					results.writeToStdout();
 					break;
 				}
 			}
-			if (Flag == 0 && fileprocessor.poll() == null) {
-				System.out.println("File is empty");
+			if (Flag == 0 && returnWord == null) {
+				String s = "File is empty";
+				resultmap.put(5,s);
+				results.writeToStdout();
+				//System.out.println("File is empty");
 			}
 		}
 		catch (FileNotFoundException e) {
-			System.out.println("Missing Input File");}
+			String s = "Missing Input File";
+			resultmap.put(6,s);
+			results.writeToStdout();
+			//System.out.println("Missing Input File");
+			}
 		catch (IOException e) {
-			System.out.println("IO Exception");
+			String s = "IO Exception";
+			resultmap.put(7,s);
+			results.writeToStdout();
+			//System.out.println("IO Exception");
 		}
+		catch (SecurityException e){
+			String s = "You do not have the read permissions to the input file";
+			resultmap.put(8,s);
+			results.writeToStdout();
+			//System.out.println("You do not have the read permissions to the input file");
+		}
+		catch (InvalidPathException e){
+			String s = "Invalid path";
+			resultmap.put(9,s);
+			results.writeToStdout();
+		}
+
 		metricsCalculator.MetricsCalculator(totalNumofWords,totalNumofChar, lineNum);
-		Results results = new Results();
 		results.writeToFile();
-		results.writeToStdout();
 	}
 
 }

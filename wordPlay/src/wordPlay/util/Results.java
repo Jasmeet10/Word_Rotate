@@ -8,12 +8,18 @@ import java.util.HashMap;
 
 
 public class Results implements FileDisplayInterface, StdoutDisplayInterface {
+    private String output = "";
+    private String metrics = "";
+    public Results(String output, String metrics){
+   	this.output = output;
+	this.metrics = metrics;
+    }
     /***
      * This method is the implementation of the interface of FileDisplayInterface.
      */
     public void writeToFile() {
        try {
-            File file = new File("/Users/tejas/OneDrive/Desktop/csx42-summer-2020-assign1-Jasmeet10 _V3/wordPlay/output.txt");
+            File file = new File(output);
             if(file.createNewFile());
             FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(Driver.resultmap.get(1));
@@ -25,7 +31,7 @@ public class Results implements FileDisplayInterface, StdoutDisplayInterface {
             System.out.println("An error occurred.");
         }
        try{
-       File file = new File("/Users/tejas/OneDrive/Desktop/csx42-summer-2020-assign1-Jasmeet10 _V3/wordPlay/metrics.txt");
+       File file = new File(metrics);
             if(file.createNewFile());
             FileWriter fileWriter = new FileWriter(file);
                 fileWriter.write("AVG_NUM_WORDS_PER_SENTENCE -");

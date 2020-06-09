@@ -21,21 +21,36 @@ public class Driver {
 		int count = 0,lineNum = 0;
 		int totalNumofWords = 0 ,totalNumofChar = 0;
 		String returnWord;
+		String input = args[0];
+		String output = args[1];
+		String metrics = args[2];
 		MetricsCalculator metricsCalculator = new MetricsCalculator();
 		/**
 		 * This function creates a new object of file processor and trows an error if not done.
 		 */
 		try {
-			FileProcessor fileprocessor = new FileProcessor("/Users/tejas/OneDrive/Desktop/csx42-summer-2020-assign1-Jasmeet10 _V3/wordPlay/input.txt");
 			/*
 			 * As the build.xml specifies the arguments as input,output or metrics, in case the
 			 * argument value is not given java takes the default value specified in
 			 * build.xml. To avoid that, below condition is used
 			 */
+			if(output.isEmpty()){
+				System.out.println("output file name is empty");
+				System.exit(0);
+			}
+			if(input.isEmpty()){
+				System.out.println("input file name is empty");
+				System.exit(0);
+			}
+			if(metrics.isEmpty()){
+				System.out.println("metrics file name is empty");
+				System.exit(0);
+			}
 			if ((args.length != 3) || (args[0].equals("${input}")) || (args[1].equals("${output}")) || (args[2].equals("${metrics}"))) {
 				System.err.println("Error: Incorrect number of arguments. Program accepts 3 arguments.");
 				System.exit(0);
 			}
+			FileProcessor fileprocessor = new FileProcessor(input);
 			//System.out.println("Hello World! Lets get started with the assignment");
 
 			WordRotator wordrotate = new WordRotator();
@@ -88,7 +103,7 @@ public class Driver {
 		/***
 		 * creates instance of results and calling write to file and std out method using interface instance.
 		 */
-		Results results = new Results();
+		Results results = new Results(output, metrics);
 		results.writeToFile();
 		results.writeToStdout();
 	}

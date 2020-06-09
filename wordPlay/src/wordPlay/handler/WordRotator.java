@@ -1,12 +1,21 @@
 package wordPlay.handler;
 import wordPlay.driver.Driver;
-/*import wordPlay.util.FileProcessor*/;
+/*import wordPlay.util.FileProcessor*/
 import wordPlay.util.Results;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class WordRotator{
     ArrayList<String> outputArray = new ArrayList<String>();
+
+    /***
+     * This method takes the input string and rotates it based on its reqired position.
+     * @param inputStr
+     * @param position
+     */
     public void WordRotator(String inputStr,int position){
         String outputStr = new String();
         if (inputStr.contains("."))  //checking for the period
@@ -51,8 +60,15 @@ public class WordRotator{
         StringBuffer strbuff = new StringBuffer();
 
         for (String s : outputArray) {
+            Pattern p = Pattern.compile("[.]", Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(s);
+            boolean check = m.find();
+            if(check){
             strbuff.append(s);
-            strbuff.append(" ");
+            }else{
+                strbuff.append(s);
+                strbuff.append(" ");
+            }
         }
          String str = strbuff.toString();
         Driver.resultmap.put(1,str);

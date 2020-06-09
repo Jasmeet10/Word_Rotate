@@ -1,5 +1,5 @@
 package wordPlay.driver;
-import java.io.*;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import wordPlay.util.FileProcessor;
@@ -10,20 +10,23 @@ import wordPlay.util.Results;
 import java.util.HashMap;
 import java.nio.file.InvalidPathException;
 
+
 /**
- * @author John Doe
+ * @author Jasmeet Kaur
  *
  */
 public class Driver {
 	public static HashMap<Integer,String> resultmap = new HashMap<>();
 	public static void main(String[] args) {
-		Results results = new Results();
 		int count = 0,lineNum = 0;
 		int totalNumofWords = 0 ,totalNumofChar = 0;
 		String returnWord;
 		MetricsCalculator metricsCalculator = new MetricsCalculator();
+		/**
+		 * This function creates a new object of file processor and trows an error if not done.
+		 */
 		try {
-			FileProcessor fileprocessor = new FileProcessor("/Users/jasmeetkaur/Desktop/csx42-summer-2020-assign1-Jasmeet10 _V4/wordPlay/input.txt");
+			FileProcessor fileprocessor = new FileProcessor("/Users/tejas/OneDrive/Desktop/csx42-summer-2020-assign1-Jasmeet10 _V3/wordPlay/input.txt");
 			/*
 			 * As the build.xml specifies the arguments as input,output or metrics, in case the
 			 * argument value is not given java takes the default value specified in
@@ -39,7 +42,7 @@ public class Driver {
 
 			int Flag = 0;
 			while ((returnWord = fileprocessor.poll()) != null) {
-				System.out.println(returnWord);
+				//System.out.println(returnWord);
 				count = count + 1;
 				totalNumofWords = totalNumofWords +1;
 				wordrotate.WordRotator(returnWord, count);
@@ -51,51 +54,43 @@ public class Driver {
 					totalNumofChar = totalNumofChar-1;
 
 				}
-
+				/***
+				 * This pattern matcher checkes if there is a special character in input file.
+				 */
 				Pattern p = Pattern.compile("[^a-zA-Z0-9.]", Pattern.CASE_INSENSITIVE);
 				Matcher m = p.matcher(returnWord);
 				boolean check = m.find();
 				if (check) {
-					String s = "There is a special character in the input file.";
-					//System.out.println("There is a special character in the input file.");
-					resultmap.put(4,s);
-					results.writeToStdout();
+					System.out.println("There is a special character in the input file.");
 					break;
 				}
 			}
-			if (Flag == 0 && returnWord == null) {
-				String s = "File is empty";
-				resultmap.put(5,s);
-				results.writeToStdout();
-				//System.out.println("File is empty");
+			/***
+			 * This condition checkes if the file is empty or not.
+			 */
+			if (Flag == 0 && fileprocessor.poll() == null) {
+				System.out.println("File is empty");
 			}
 		}
 		catch (FileNotFoundException e) {
-			String s = "Missing Input File";
-			resultmap.put(6,s);
-			results.writeToStdout();
-			//System.out.println("Missing Input File");
-			}
+			System.out.println("Missing Input File");}
 		catch (IOException e) {
-			String s = "IO Exception";
-			resultmap.put(7,s);
-			results.writeToStdout();
-			//System.out.println("IO Exception");
+			System.out.println("IO Exception");
 		}
 		catch (SecurityException e){
-			String s = "You do not have the read permissions to the input file";
-			resultmap.put(8,s);
-			results.writeToStdout();
-			//System.out.println("You do not have the read permissions to the input file");
+			System.out.println("You do not have the read permissions to the input file");
 		}
 		catch (InvalidPathException e){
-			String s = "Invalid path";
-			resultmap.put(9,s);
-			results.writeToStdout();
-		}
 
+			System.out.println("Invalid path");
+		}
 		metricsCalculator.MetricsCalculator(totalNumofWords,totalNumofChar, lineNum);
+		/***
+		 * creates instance of results and calling write to file and std out method using interface instance.
+		 */
+		Results results = new Results();
 		results.writeToFile();
+		results.writeToStdout();
 	}
 
 }

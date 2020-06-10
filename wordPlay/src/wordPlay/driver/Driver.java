@@ -26,13 +26,16 @@ public class Driver {
 		String metrics = args[2];
 		MetricsCalculator metricsCalculator = new MetricsCalculator();
 		/**
-		 * This function creates a new object of file processor and trows an error if not done.
+		 * This function creates a new object of file processor and throws an error if not done.
 		 */
 		try {
 			/*
 			 * As the build.xml specifies the arguments as input,output or metrics, in case the
 			 * argument value is not given java takes the default value specified in
 			 * build.xml. To avoid that, below condition is used
+			 */
+			/***
+			 * checking all the input parameters while running the program.
 			 */
 			if(output.isEmpty()){
 				System.out.println("output file name is empty");
@@ -51,6 +54,7 @@ public class Driver {
 				System.exit(0);
 			}
 			FileProcessor fileprocessor = new FileProcessor(input);
+
 			//System.out.println("Hello World! Lets get started with the assignment");
 
 			WordRotator wordrotate = new WordRotator();

@@ -1,5 +1,5 @@
 # CSX42: Assignment 1
-## Name: 
+## Name: Jasmeet Kaur Dua
 
 -----------------------------------------------------------------------
 -----------------------------------------------------------------------
@@ -33,7 +33,10 @@ Note: Arguments accept the absolute path of the files.
 
 -----------------------------------------------------------------------
 ## Description:
-
+1. ArrayList : The worst case time complexity of add operation in ArrayList is linear.
+- Space complexity is better than LinkedList.
+2. HashMap : The worst case time complexity is O(logN)
+- Space complexity is O(N).
 
 -----------------------------------------------------------------------
 ### Academic Honesty statement:
@@ -45,7 +48,7 @@ I am involved in plagiarism or cheating an official form will be
 submitted to the Academic Honesty Committee of the Watson School to
 determine the action that needs to be taken. "
 
-Date: [ADD_DATE_HERE]
+Date: [June/09/2020]
 
 
 # csx42-summer-2020-assign1-Jasmeet10
